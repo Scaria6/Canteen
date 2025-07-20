@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Canteen Mobile UI</title>
+  <style>
+    :root {
+      --primary: #2e7d32; /* Green theme */
+      --secondary: #e8f5e9;
+      --text-dark: #1b5e20;
+      --text-light: #666;
+      --bg: url('https://www.transparenttextures.com/patterns/white-wall-3.png');
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      background-color: #f0fff0;
+      color: var(--text-dark);
+    }
+
+    .page {
+      display: none;
+      padding: 1rem;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .header h1,
+    .header h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .header p {
+      color: var(--text-light);
+    }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+
+    .menu-category {
+      margin-bottom: 1.5rem;
+    }
+
+    .menu-category h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem;
+      background: var(--secondary);
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+
+    .menu-item img {
+      width: 30px;
+      height: 30px;
+      margin-right: 8px;
+    }
+
+    .item-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .item-count {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: #ff3b30;
+      color: white;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 12px;
+    }
+
+    .realtime-cart {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      background: #c8e6c9;
+      border-radius: 6px;
+    }
+
+    .view-cart-btn {
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    #cart-items {
+      list-style: none;
+      padding: 0;
+    }
+
+    #cart-items li {
+      background: var(--secondary);
+      padding: 0.5rem;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    #cart-items img {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+    }
+
+    #total-price {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      body {
+        max-width: 480px;
+        margin: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Landing Page -->
+  <section id="landing" class="page active">
+    <div class="header">
+      <h1>Welcome to Campus Canteen</h1>
+      <p>Delicious meals at your fingertips</p>
+      <button onclick="navigateTo('menu')">View Menu</button>
+    </div>
+  </section>
+
+  <!-- Menu Page -->
+  <section id="menu" class="page">
+    <div class="header">
+      <button onclick="navigateTo('landing')">← Back</button>
+      <h2>Today's Menu</h2>
+    </div>
+    <div class="menu-category">
+      <h3>Specials</h3>
+      <div class="menu-item" data-name="Paneer Biryani" data-icon="🍛">
+        <div class="item-info"><img src="static/images/offer_2.jpg" alt="Free Template by Free-Template.co" class="img-fluid">Paneer Biryani - ₹70</div>
+        <span class="item-count">0</span>
+        <button onclick="addToCart('Paneer Biryani', 70, 'https://img.icons8.com/color/48/000000/biryani.png')">Add</button>
+      </div>
+      <div class="menu-item" data-name="Masala Dosa" data-icon="🥞">
+        <div class="item-info"><img src="https://img.icons8.com/color/48/000000/dosa.png" alt="icon">Masala Dosa - ₹40</div>
+        <span class="item-count">0</span>
+        <button onclick="addToCart('Masala Dosa', 40, 'https://img.icons8.com/color/48/000000/dosa.png')">Add</button>
+      </div>
+    </div>
+    <div class="menu-category">
+      <h3>Beverages</h3>
+      <div class="menu-item" data-name="Tea">
+        <div class="item-info"><img src="https://img.icons8.com/color/48/000000/tea.png" alt="icon">Tea - ₹10</div>
+        <span class="item-count">0</span>
+        <button onclick="addToCart('Tea', 10, 'https://img.icons8.com/color/48/000000/tea.png')">Add</button>
+      </div>
+      <div class="menu-item" data-name="Lassi">
+        <div class="item-info"><img src="https://img.icons8.com/color/48/000000/milkshake.png" alt="icon">Lassi - ₹20</div>
+        <span class="item-count">0</span>
+        <button onclick="addToCart('Lassi', 20, 'https://img.icons8.com/color/48/000000/milkshake.png')">Add</button>
+      </div>
+    </div>
+    <div class="menu-category">
+      <h3>Foods</h3>
+      <div class="menu-item" data-name="Veg Thali">
+        <div class="item-info"><img src="https://img.icons8.com/color/48/000000/meal.png" alt="icon">Veg Thali - ₹60</div>
+        <span class="item-count">0</span>
+        <button onclick="addToCart('Veg Thali', 60, 'https://img.icons8.com/color/48/000000/meal.png')">Add</button>
+      </div>
+      <div class="menu-item" data-name="Fried Rice">
+        <div class="item-info"><img src="https://img.icons8.com/color/48/000000/rice-bowl.png" alt="icon">Fried Rice - ₹50</div>
+        <span class="item-count">0</span>
+        <button onclick="addToCart('Fried Rice', 50, 'https://img.icons8.com/color/48/000000/rice-bowl.png')">Add</button>
+      </div>
+    </div>
+    <div class="realtime-cart">
+      <h4>Items in Cart:</h4>
+      <ul id="realtime-cart-list"></ul>
+    </div>
+    <button class="view-cart-btn" onclick="navigateTo('cart'); renderCart();">View Cart</button>
+  </section>
+
+  <!-- Cart Page -->
+  <section id="cart" class="page">
+    <div class="header">
+      <button onclick="navigateTo('menu')">← Back</button>
+      <h2>Your Cart</h2>
+    </div>
+    <ul id="cart-items"></ul>
+    <p id="total-price">Total: ₹0</p>
+    <button onclick="checkout()">Checkout</button>
+  </section>
+
+  <script>
+    let cart = [];
+
+    function navigateTo(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    function addToCart(item, price, icon) {
+      cart.push({ item, price, icon });
+      updateItemCount(item);
+      updateRealtimeCart();
+    }
+
+    function updateItemCount(itemName) {
+      const count = cart.filter(c => c.item === itemName).length;
+      const element = document.querySelector(`.menu-item[data-name='${itemName}'] .item-count`);
+      if (element) {
+        element.textContent = count;
+      }
+    }
+
+    function updateRealtimeCart() {
+      const list = document.getElementById('realtime-cart-list');
+      list.innerHTML = '';
+      const counts = {};
+      cart.forEach(({ item, icon }) => {
+        if (!counts[item]) counts[item] = { count: 0, icon };
+        counts[item].count++;
+      });
+      for (const [item, { count, icon }] of Object.entries(counts)) {
+        const li = document.createElement('li');
+        li.innerHTML = `<img src="${icon}" alt="icon" /> ${item} x${count}`;
+        list.appendChild(li);
+      }
+    }
+
+    function renderCart() {
+      const cartItems = document.getElementById('cart-items');
+      cartItems.innerHTML = '';
+      let total = 0;
+      cart.forEach(({ item, price, icon }, index) => {
+        total += price;
+        const li = document.createElement('li');
+        li.innerHTML = `<img src="${icon}" alt="icon" /> ${item} - ₹${price} <button onclick="removeItem(${index})">Remove</button>`;
+        cartItems.appendChild(li);
+      });
+      document.getElementById('total-price').textContent = 'Total: ₹' + total;
+    }
+
+    function removeItem(index) {
+      const removed = cart[index].item;
+      cart.splice(index, 1);
+      updateItemCount(removed);
+      updateRealtimeCart();
+      renderCart();
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+      } else {
+        alert('Order placed successfully!');
+        cart = [];
+        document.querySelectorAll('.item-count').forEach(el => el.textContent = '0');
+        document.getElementById('realtime-cart-list').innerHTML = '';
+        renderCart();
+        navigateTo('landing');
+      }
+    }
+  </script>
+</body>
+
+</html>
